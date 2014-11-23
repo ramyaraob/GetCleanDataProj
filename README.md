@@ -1,29 +1,21 @@
 GetCleanDataProj
 ================
 
-The R script that is a part of this repository is as follows
-trainsubjects=read.table("train\\subject_train.txt") ## read the list of subjects
-trainX=read.table("train\\X_train.txt") ##read the list of training values
-trainY=read.table("train\\Y_train.txt") ## read the list of training labels
-trainset=cbind(trainsubjects,trainY,trainX) ##merge all the three list
+This is the readmefile accompanying the run_analysis.R script for analyzing the test and training data set.
 
-testsubjects=read.table("test\\subject_test.txt") ##repeat the same for test data
-testX=read.table("test\\X_test.txt")
-testY=read.table("test\\Y_test.txt")
-testset=cbind(testsubjects,testY,testX)
-##combine test and training data
-totalset=rbind(trainset,testset)
-##read descriptive names for columns
-newnames=read.table("features.txt", stringsAsFactors=FALSE)
-newnames=subset(newnames, select=c(V2))
-newnames<-rbind("Subject","ActivityName",newnames)
+Algorithm for analyzing data:
 
-colnameVector<-unlist(newnames[,1])
-colnames(totalset)<-colnameVector
-##select columns related to mean and std
-partialTable<- totalset[,grep("mean[()]|std[()]", colnames(totalset))]
-##write to file
-write.table(partialTable,file="fin.txt",row.name=FALSE)
-print("file written")
+1. Load test data from the files under test folder and training data from the files under the train folder
+2. Load the features and descriptive activity names from features.txt and activity_info.txt
+3. Load the data and merge the training and test data
+4. Using the descriptive activity names and features modify the column names (features) and column value for Activity in the new data.
+5. Select only the columns representing mean and standard deviation values for the features.
+6. Find the average of these features for every participant and activity and create a new tidy data set.
+7. Write this data to a file. 
 
 
+Along with the script, this project contains,
+1. A CodeBook (CodeBook.md) describing the various variables.
+   HTML version - CodeBook.html
+   R markdown - CodeBook.rmd
+2. TidyData.txt - file containing the new tidy data.
